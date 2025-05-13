@@ -1,22 +1,24 @@
 import './Person.scss';
 
-export const Person = ({ person }) => {
-  const { name, age, sex, isMarried, partnerName } = person;
-  let personPartner = 'I am not married';
+const SEX = {
+  female: 'f',
+  male: 'm',
+};
+const DEFAULT_PERSON_PARTNER_TEXT = 'I am not married';
 
-  if (isMarried) {
-    if (sex === 'f') {
-      personPartner = `${partnerName} is my husband`;
-    } else {
-      personPartner = `${partnerName} is my wife`;
-    }
-  }
+const getPersonPartnerText = ({ isMarried, sex, partnerName }) => {
+  return isMarried ? `${partnerName} is my ${sex === SEX.female ? 'husband' : 'wife'}` : DEFAULT_PERSON_PARTNER_TEXT;
+};
+
+export const Person = ({ person }) => {
+  const { name, age } = person;
+  const personPartnerText = getPersonPartnerText(person);
 
   return (
     <section className="Person">
       <h2 className="Person__name">My name is {name}</h2>
       {age !== undefined && <p className="Person__age">I am {age}</p>}
-      <p className="Person__partner">{personPartner}</p>
+      <p className="Person__partner">{personPartnerText}</p>
     </section>
   );
 };
